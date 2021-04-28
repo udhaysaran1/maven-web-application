@@ -99,7 +99,7 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://65.2.57.113:9981/mphasisandco/repository/amazon-release/</url>
+	      <url>http://52.66.245.255:8081/repository/amazon-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>

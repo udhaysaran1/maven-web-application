@@ -1,0 +1,32 @@
+node ('master')
+{
+   def mavenHome = tool name: "maven-3.8.1" 
+    stage ('checkoutcode')
+    {
+        git branch: 'development', credentialsId: 'd12f52cf-fb19-40ff-8b75-87660f341efc', url: 'https://github.com/udhaysaran1/maven-web-application.git'
+    }
+    stage ('build')
+    {
+       sh "${mavenHome}/bin/mvn clean package"
+    }
+    stage ('executesonarcubereport')
+    {
+       sh "${mavenHome}/bin/mvn sonar:sonar" 
+    }
+    stage ('uploadartifactintonexus')
+    {
+       sh "${mavenHome}/bin/mvn deploy" 
+    }
+    stage ('tomcatdeploy')
+    {
+        sshagent(['fc5f587e-5525-401c-ab08-cb5472816a2e']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war  ec2-user@13.233.62.106:/opt/apache-tomcat-10.0.5/webapps" 
+  }
+    }
+    stage ('email')
+    {
+       emailext body: '''build over -scripted way
+
+Thanks.''', subject: 'devops-amazon-dev', to: 'devopsudhaya.kumar@gmail.com'
+    }
+}

@@ -1,0 +1,53 @@
+pipeline{
+agent any
+ environment {
+     CF_VERSION='1.0'
+     CF_API=""
+ }
+ tools {
+        maven 'maven-3.8.1' 
+    }
+    options{
+        timestamps()
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5'))
+    }
+    triggers{
+        pollSCM('* * * * * ')
+    }
+ stages{
+  stage('checkoutcode'){
+      steps{
+git branch: 'development', credentialsId: '1514fcca-cca4-4790-93d8-0a48313061ed', url: 'https://github.com/udhaysaran1/maven-web-application.git'
+ }
+}
+stage('build'){
+steps {
+sh 'mvn clean package'
+      }
+ }
+ stage('sonar'){
+steps {
+sh 'mvn sonar:sonar'
+      }
+ }
+ stage('nexus') {
+steps {
+sh 'mvn deploy'
+      }
+ }
+ stage('tomcat') {
+    steps {
+        sshagent(['Tomcatrecent']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.233.147.39:/opt/tomcat9/webapps/"
+}
+           }
+    }
+ }
+ post{
+always{
+   emailext body: 'Build success', recipientProviders: [culprits(), upstreamDevelopers()], subject: 'Build success', to: 'sujithraselvaraj94@gmail.com,splunkudhaya.kumar@gmail.com'
+}
+}
+ 
+ }
+   

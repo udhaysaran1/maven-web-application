@@ -23,7 +23,7 @@
 		+91-9566116848,
 		devopstrainingbr@gmail.com
 		<br>
-		<a href="mailto:devopstrainingblr@gmail.com">Mail to Mithun Technologies</a>
+		<a href="mailto:devopstrainingblr@gmail.com">Mail to Mithun and udhay Technologies</a>
 	</span>
 </div>
 <hr>

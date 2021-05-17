@@ -1,5 +1,5 @@
 pipeline{
-agent slave1
+agent jenkinsslaves
  environment {
      CF_VERSION='1.0'
      CF_API=""

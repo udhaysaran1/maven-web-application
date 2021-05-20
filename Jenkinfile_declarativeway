@@ -45,7 +45,7 @@ sh 'mvn deploy'
  }
  post{
 always{
-   emailext body: 'Build success', recipientProviders: [culprits(), upstreamDevelopers()], subject: 'Build success', to: 'sujithraselvaraj94@gmail.com,splunkudhaya.kumar@gmail.com'
+   emailext body: 'Build success', recipientProviders: [culprits(), upstreamDevelopers()], subject: 'Build success', to: 'devopsudhaya.kumar@gmail.com,splunkudhaya.kumar@gmail.com'
 }
 }
  
